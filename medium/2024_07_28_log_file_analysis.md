@@ -8,7 +8,7 @@ Write a script that processes a web server log file and extracts specific inform
 The log file follows the Common Log Format (CLF) and contains entiries such as:
 
 ```
-127.0.0.1 - frank [10/Oct/2000:13:55:36-0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+127.0.0.1 - frank [10/Oct/2000:13:54:17-0700] "GET /apache_pb.gif HTTP/1.0" 200 2364784
 ```
 
 Your task is to write a script that:
@@ -32,16 +32,17 @@ The log file will be saved under a file named 2024_07_28_access.log
 For the given example log file, the output should look something like this:
 
 ```
-Total number of requests: 5
+Total number of requests: 14
 Top 3 most requested URLs:
-1. /apache_pb.gif (2 requests)
-2. /login (1 request)
-3. /home (1 request)
+1. /login (4 requests)
+2. /apache_pb.gif (3 requests)
+3. /products (2 requests)
 Requests per status code:
-200: 3
+200: 9
+401: 4
 404: 1
 IP address with the highest number of requests:
-127.0.0.1 (2 requests)
+192.168.1.1 (5 requests)
 ```
 
 ## Hints
@@ -65,12 +66,9 @@ IP address with the highest number of requests:
 
 ```
 Requests per hour:
-00: 0
-01: 0
-...
-13: 5
-...
-23: 0
+13: 9
+14: 4
+17: 1
 ```
 
 ## 2: Identify unique visitors
@@ -79,7 +77,7 @@ Requests per hour:
 
 ### Expected Output
 ```
-Total number of unique visitors: 3
+Total number of unique visitors: 4
 ```
 
 ## 3: Filter requests by status code
@@ -97,18 +95,17 @@ When provided, the script should only count and analyze requests with that statu
 ### Expected Output:
 
 ```
-Total number of requests with status code 200: 3
+Total number of requests with status code 200: 9
 Top 3 most requested URLs:
-1. /apache_pb.gif (2 requests)
-2. /login (1 request)
+1. /apache_pb.gif (3 requests)
+2. /products (2 requests)
+3. /about (1 request)
 Requests per hour:
-00: 0
-...
-13: 3
-...
-23: 0
+13: 5
+14: 3
+17: 1
 IP address with the highest number of requests:
-127.0.0.1 (2 requests)
+127.0.0.1 (4 requests)
 ```
 
 ## 4: Average response size
@@ -119,8 +116,9 @@ IP address with the highest number of requests:
 
 ```
 Average response size per status code:
-200: 1398 bytes
-404: 123 bytes
+200: 789216 bytes
+401: 532 bytes
+404: 1234 bytes
 ```
 
 ## 5: Identify potential security issues
@@ -132,7 +130,7 @@ Average response size per status code:
 
 ```
 Potential security issues:
-IP: 192.168.1.1 had 3 failed login attempts within 5 minutes
+IP: 192.168.1.1 had 4 failed login attempts within 5 minutes
 ```
 
 ## 6: Generate a summary report
@@ -142,29 +140,3 @@ IP: 192.168.1.1 had 3 failed login attempts within 5 minutes
 *Details*: The summary should include all previously computed statistics, and it should be saved to
 a file named summary_report.txt
 
-### Example content of summary_report.txt:
-
-```
-Total number of requests: 5
-Top 3 most requested URLs:
-1. /apache_pb.gif (2 requests)
-2. /login (1 request)
-3. /home (1 request)
-Requests per status code:
-200: 3
-404: 1
-IP address with the highest number of requests:
-127.0.0.1 (2 requests)
-Requests per hour:
-00: 0
-...
-13: 5
-...
-23: 0
-Total number of unique visitors: 3
-Average response size per status code:
-200: 1398 bytes
-404: 123 bytes
-Potential security issues:
-IP: 192.168.1.1 had 3 failed login attempts within 5 minutes
-```
